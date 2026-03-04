@@ -1,0 +1,13 @@
+[font]
+size = 12.0
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[window]
+decorations = "None"
+padding = { x = 10 }
+
+[selection]
+save_to_clipboard = true

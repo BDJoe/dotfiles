@@ -1,0 +1,501 @@
+{
+	/*-------------------------------------------------------
+		NOTE:
+		Wildcard includes are broken after v0.14.0:
+		  - https://github.com/Alexays/Waybar/issues/4354
+		  - https://github.com/sejjy/mechabar/issues/31
+
+	"include": [
+		"~/.config/waybar/modules/*.jsonc",
+		"~/.config/waybar/modules/custom/*.jsonc",
+		"~/.config/waybar/modules/hyprland/*.jsonc",
+
+		// modules that are not included by default:
+		"~/.config/waybar/modules/extras/*.jsonc"
+	],
+	-------------------------------------------------------*/
+
+	/*------------
+		layout
+	------------*/
+
+	"modules-left": [
+		"group/theme_switcher",
+		"custom/left_div#1",
+		"hyprland/workspaces",
+		"custom/right_div#1",
+		"hyprland/window"
+	],
+	"modules-center": [
+		"custom/left_div#2",
+		"hyprland/windowcount",
+		"temperature",
+		"custom/left_div#3",
+		"memory",
+		"custom/left_div#4",
+		"cpu",
+		"custom/left_inv#1",
+		"custom/left_div#5",
+		"custom/distro",
+		"custom/right_div#2",
+		"custom/right_inv#1",
+		"custom/hypridle",
+		"clock#time",
+		"custom/right_div#3",
+		"clock#date",
+		"custom/right_div#4",
+		"custom/system_update",
+		"hyprland/submap",
+		"custom/right_div#5"
+	],
+	"modules-right": [
+		"mpris",
+		"custom/left_div#6",
+		"group/pulseaudio",
+		"custom/left_div#7",
+		"tray",
+		"custom/left_div#8",
+		"custom/notification",
+		"custom/left_inv#2",
+		"custom/power_menu"
+	],
+
+	/*-------------
+		options
+	-------------*/
+
+	"layer": "top",
+	// "output":
+	// "position":
+	"height": 0,
+	"width": 0,
+	"margin": 0,
+	// "margin-top":
+	// "margin-left":
+	// "margin-bottom":
+	// "margin-right":
+	"spacing": 0,
+	// "name":
+	"mode": "dock",
+	// "start_hidden":
+	// "modifier-reset":
+	// "exclusive":
+	"fixed-center": true,
+	// "passthrough":
+	// "ipc":
+	// "id":
+	"reload_style_on_change": true,
+
+	/*-------------------------------------------------------------------
+		HINT:
+		See the modules directory for more per-module config options.
+	-------------------------------------------------------------------*/
+	/*------------------
+		modules-left
+	------------------*/
+
+	"group/theme_switcher": {
+		"orientation": "horizontal",
+		"modules": ["custom/theme_switcher", "custom/user"],
+		"drawer": {}
+	},
+	"custom/theme_switcher": {
+		"exec": "~/.config/waybar/scripts/theme-switcher.sh",
+		"return-type": "json",
+		"format": "{}",
+		"min-length": 4,
+		"max-length": 4,
+		"on-click": "~/.config/waybar/scripts/theme-switcher.sh next",
+		"on-click-right": "~/.config/waybar/scripts/theme-switcher.sh prev"
+	},
+	"custom/user": {
+		"exec": "id --user --name",
+		"format": "{}",
+		"tooltip": false
+	},
+
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"format-icons": {
+			"active": "",
+			"default": "",
+			"empty": ""
+		},
+		"persistent-workspaces": {
+			"*": 5
+		},
+		"on-scroll-up": "hyprctl dispatch workspace +1",
+		"on-scroll-down": "hyprctl dispatch workspace -1",
+		"cursor": true
+	},
+	"hyprland/window": {
+		"format": "{}",
+		"rewrite": {
+			"": "Desktop",
+			"alacritty": "Terminal",
+			"zsh in (.*)": "Terminal in $1",
+			"~": "Terminal"
+		},
+		"swap-icon-label": false
+	},
+
+	/*--------------------
+		modules-center
+	--------------------*/
+
+	"hyprland/windowcount": {
+		"format": "[{}]",
+		"swap-icon-label": false,
+		"on-click": "~/.config/ml4w/scripts/focus.sh"
+	},
+
+	"temperature": {
+		"thermal-zone": 1,
+		"critical-threshold": 90,
+		"interval": 10,
+		"format-critical": "󰀦 {temperatureC}°C",
+		"format": "{icon} {temperatureC}°C",
+		"format-icons": ["󱃃", "󰔏", "󱃂"],
+		"min-length": 8,
+		"max-length": 8,
+		"tooltip-format": "Temp in Fahrenheit: {temperatureF}°F"
+	},
+
+	"memory": {
+		"interval": 10,
+		"format": "󰘚 {percentage}%",
+		"format-warning": "󰀧 {percentage}%",
+		"format-critical": "󰀧 {percentage}%",
+		"states": {
+			"warning": 75,
+			"critical": 90
+		},
+		"min-length": 7,
+		"max-length": 7,
+		"tooltip-format": "Memory Used: {used:0.1f} GB / {total:0.1f} GB"
+	},
+
+	"cpu": {
+		"interval": 10,
+		"format": "󰍛 {usage}%",
+		"format-warning": "󰀨 {usage}%",
+		"format-critical": "󰀨 {usage}%",
+		"min-length": 7,
+		"max-length": 7,
+		"states": {
+			"warning": 75,
+			"critical": 90
+		},
+		"tooltip": false,
+		"on-click": "~/.config/ml4w/settings/system-monitor.sh"
+	},
+
+	"custom/distro": {
+		"format": "󰣇",
+		"tooltip": false,
+		"on-click": "sleep 0.2;pkill rofi || rofi -show drun -replace"
+	},
+
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "󰈈",
+			"deactivated": "󰈉"
+		},
+		"min-length": 3,
+		"max-length": 3,
+		"tooltip-format-activated": "Keep Screen On: <span text_transform='capitalize'>{status}</span>",
+		"tooltip-format-deactivated": "Keep Screen On: <span text_transform='capitalize'>{status}</span>",
+		"start-activated": false
+	},
+
+	"custom/hypridle": {
+		"format": "{icon}",
+		"format-icons": {
+			"active": "󰈉",
+			"notactive": "󰈈"
+		},
+		"return-type": "json",
+		"escape": true,
+		"exec-on-event": true,
+		"interval": 60,
+		"exec": "~/.config/hypr/scripts/hypridle.sh status",
+		"on-click": "~/.config/hypr/scripts/hypridle.sh toggle"
+	},
+
+	"clock#time": {
+		"format": "{:%I:%M %p}",
+		"min-length": 5,
+		"max-length": 10,
+		"tooltip": false
+	},
+
+	"clock#date": {
+		"format": "󰸗 {:%m-%d}",
+		"min-length": 8,
+		"max-length": 8,
+		"tooltip-format": "{calendar}",
+		"calendar": {
+			"mode": "month",
+			"mode-mon-col": 6,
+			"format": {
+				"months": "<span alpha='100%'><b>{}</b></span>",
+				"days": "<span alpha='90%'>{}</span>",
+				"weekdays": "<span alpha='80%'><i>{}</i></span>",
+				"today": "<span alpha='100%'><b><u>{}</u></b></span>"
+			}
+		},
+		"actions": {
+			"on-click": "mode"
+		}
+	},
+
+	"network": {
+		"interval": 10,
+		"format": "󰤨",
+		"format-ethernet": "󰈀",
+		"format-wifi": "{icon}",
+		"format-disconnected": "󰤯",
+		"format-disabled": "󰤮",
+		"format-icons": ["󰤟", "󰤢", "󰤥", "󰤨"],
+		"min-length": 2,
+		"max-length": 2,
+		"on-click": "~/.config/ml4w/settings/networkmanager.sh",
+		"on-click-right": "nmcli radio wifi off && notify-send 'Wi-Fi Disabled' -i 'network-wireless-off' -r 1125",
+		"tooltip-format": "Gateway: {gwaddr}",
+		"tooltip-format-ethernet": "Ethernet Connected",
+		"tooltip-format-wifi": "Network: {essid}\nIP Addr: {ipaddr}/{cidr}\nStrength: {signalStrength}%\nFrequency: {frequency} GHz",
+		"tooltip-format-disconnected": "Wi-Fi Disconnected",
+		"tooltip-format-disabled": "Wi-Fi Disabled"
+	},
+
+	"bluetooth": {
+		"format": "󰂯",
+		"format-disabled": "󰂲",
+		"format-off": "󰂲",
+		"format-on": "󰂰",
+		"format-connected": "󰂱",
+		"min-length": 2,
+		"max-length": 2,
+		"on-click": "alacritty -e ~/.config/waybar/scripts/bluetooth.sh",
+		"on-click-right": "bluetoothctl power off && notify-send 'Bluetooth Off' -i 'network-bluetooth-inactive' -r 1925",
+		"tooltip-format": "Device Addr: {device_address}",
+		"tooltip-format-disabled": "Bluetooth Disabled",
+		"tooltip-format-off": "Bluetooth Off",
+		"tooltip-format-on": "Bluetooth Disconnected",
+		"tooltip-format-connected": "Device: {device_alias}",
+		"tooltip-format-enumerate-connected": "Device: {device_alias}",
+		"tooltip-format-connected-battery": "Device: {device_alias}\nBattery: {device_battery_percentage}%",
+		"tooltip-format-enumerate-connected-battery": "Device: {device_alias}\nBattery: {device_battery_percentage}%"
+	},
+
+	"hyprland/submap": {
+		"format": "",
+		"max-length": 8,
+		"tooltip": false
+	},
+
+	"custom/system_update": {
+		"format": " {}",
+		"escape": true,
+		"return-type": "json",
+		"exec": "~/.config/ml4w/scripts/updates.sh",
+		"interval": 1800,
+		"signal": 1,
+		"hide-empty-text": true,
+		"on-click": "~/.config/ml4w/settings/installupdates.sh"
+	},
+
+	/*-------------------
+		modules-right
+	-------------------*/
+
+	"tray": {
+		"icon-size": 21,
+		"spacing": 10
+	},
+
+	// SwayNC
+	"custom/notification": {
+		"tooltip-format": "Left: Notifications\nRight: Do not disturb",
+		"format": "{icon}",
+		"format-icons": {
+			"notification": "notifications_active",
+			"none": "notifications",
+			"dnd-notification": "notifications_active",
+			"dnd-none": "notifications_paused",
+			"inhibited-notification": "notification_important",
+			"inhibited-none": "notification_important",
+			"dnd-inhibited-notification": "notification_off",
+			"dnd-inhibited-none": "notifications_off"
+		},
+		"return-type": "json",
+		"exec-if": "which swaync-client",
+		"exec": "swaync-client -swb",
+		"on-click": "swaync-client -t -sw",
+		"on-click-right": "swaync-client -d -sw",
+		"escape": true
+	},
+
+	"mpris": {
+		"format": "{player_icon} {title} - {artist}",
+		"format-paused": "{status_icon} {title} - {artist}",
+		"tooltip-format": "Playing: {title} - {artist}",
+		"tooltip-format-paused": "Paused: {title} - {artist}",
+		"player-icons": {
+			"default": "󰐊"
+		},
+		"status-icons": {
+			"paused": "󰏤"
+		},
+		"max-length": 1000
+	},
+
+	"group/pulseaudio": {
+		"orientation": "horizontal",
+		"modules": ["pulseaudio#output"],
+		"drawer": {
+			"transition-left-to-right": false
+		}
+	},
+	"pulseaudio#output": {
+		"format": "{icon} {volume}%",
+		"format-muted": "{icon} {volume}%",
+		"format-icons": {
+			"default": ["󰕿", "󰖀", "󰕾"],
+			"default-muted": "󰝟",
+			"headphone": "󰋋",
+			"headphone-muted": "󰟎",
+			"headset": "󰋎",
+			"headset-muted": "󰋐"
+		},
+		"min-length": 7,
+		"max-length": 7,
+		"on-click": "~/.config/waybar/scripts/volume.sh output mute",
+		"on-click-right": "pavucontrol",
+		"on-scroll-up": "~/.config/waybar/scripts/volume.sh output raise",
+		"on-scroll-down": "~/.config/waybar/scripts/volume.sh output lower",
+		"tooltip-format": "Output Device: {desc}"
+	},
+	"pulseaudio#input": {
+		"format": "{format_source}",
+		"format-source": "󰍬 {volume}%",
+		"format-source-muted": "󰍭 {volume}%",
+		"min-length": 7,
+		"max-length": 7,
+		"on-click": "~/.config/waybar/scripts/volume.sh input mute",
+		"on-scroll-up": "~/.config/waybar/scripts/volume.sh input raise",
+		"on-scroll-down": "~/.config/waybar/scripts/volume.sh input lower",
+		"tooltip-format": "Input Device: {desc}"
+	},
+
+	"backlight": {
+		"format": "{icon} {percent}%",
+		"format-icons": ["", "", "", "", "", "", "", "", ""],
+		"min-length": 7,
+		"max-length": 7,
+		"on-scroll-up": "~/.config/waybar/scripts/backlight.sh up",
+		"on-scroll-down": "~/.config/waybar/scripts/backlight.sh down",
+		"tooltip": false
+	},
+
+	"battery": {
+		"states": {
+			"warning": 20,
+			"critical": 10
+		},
+		"format": "{icon} {capacity}%",
+		"format-time": "{H} hr {M} min",
+		"format-icons": ["󰂎", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+		"format-charging": "󰉁 {capacity}%",
+		"min-length": 7,
+		"max-length": 7,
+		"tooltip-format": "Discharging: {time}",
+		"tooltip-format-charging": "Charging: {time}",
+		"events": {
+			"on-discharging-warning": "notify-send 'Battery Low' -i 'battery-020'",
+			"on-discharging-critical": "notify-send 'Battery Critical' -u critical -i 'battery-010'",
+			"on-charging-100": "notify-send 'Battery Full' -i 'battery-100-charged'"
+		}
+	},
+
+	"custom/power_menu": {
+		"format": "",
+		"on-click": "~/.config/ml4w/scripts/wlogout.sh",
+		"tooltip-format": "Power Menu"
+	},
+
+	/*-------------------
+		left dividers
+	-------------------*/
+
+	"custom/left_div#1": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/left_div#2": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/left_div#3": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/left_div#4": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/left_div#5": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/left_div#6": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/left_div#7": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/left_div#8": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/left_inv#1": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/left_inv#2": {
+		"format": "",
+		"tooltip": false
+	},
+
+	/*--------------------
+		right dividers
+	--------------------*/
+
+	"custom/right_div#1": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/right_div#2": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/right_div#3": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/right_div#4": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/right_div#5": {
+		"format": "",
+		"tooltip": false
+	},
+	"custom/right_inv#1": {
+		"format": "",
+		"tooltip": false
+	}
+}

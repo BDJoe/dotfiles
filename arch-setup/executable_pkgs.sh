@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+general=(
+    "wget"
+    "curl"
+    "git"
+    "rsync"
+    "unzip"
+    "tar"
+    "jq"
+    "flatpak"
+    "vim"
+    "inotify-tools"
+    "gnome-themes-extra"
+    "udisks2"
+    "gvfs"
+    "udiskie"
+)
+
+hyprland=(
+    "hyprlock"
+    "hypridle"
+    "hyprpicker"
+    "xdg-desktop-portal-hyprland"
+)
+
+apps=(
+    "alacritty"
+    "wlogout"
+    "vlc"
+    "nwg-displays"
+    "waybar"
+    "rofi"
+    "nwg-look"
+    "pavucontrol"
+    "neovim"
+    "blueman"
+    "qt6ct"
+    "nautilus"
+    "gnome-text-editor"
+    "firefox"
+    "matugen"
+)
+
+tools=(
+    "xdg-user-dirs"
+    "xdg-desktop-portal-gtk"
+    "figlet"
+    "fastfetch"
+    "htop"
+    "xclip"
+    "zsh"
+    "fzf"
+    "brightnessctl"
+    "tumbler"
+    "slurp"
+    "cliphist"
+    "gvfs"
+    "grim"
+    "breeze"
+    "tesseract"
+    "wl-clipboard"
+    "btop"
+)

@@ -1,0 +1,16 @@
+android-studio
+checkupdates-with-aur
+google-chrome
+grimblast-git
+grub-customizer
+httpie-desktop-bin
+hyprshade
+jetbrains-toolbox
+linmath
+needrestart
+pacseek
+python-pywalfox
+python-screeninfo
+visual-studio-code-bin
+waypaper
+wlogout
