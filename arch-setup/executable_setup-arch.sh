@@ -47,10 +47,12 @@ packages=(
     "eza"
     "python-pywalfox"
     "tesseract-data-eng"
+    "gnome-keyring"
     "seahorse"
     # Fonts
     "otf-font-awesome"
     "ttf-firacode-nerd"
+    "ttf-fira-sans"
     "ttf-jetbrains-mono-nerd"
     "tty-clock"
     "ttf-0xproto-nerd"
@@ -242,6 +244,16 @@ fi
 # --------------------------------------------------------------
 
 curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
+
+# --------------------------------------------------------------
+# Oh My Zsh
+# --------------------------------------------------------------
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
+  ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 
 # --------------------------------------------------------------
 # Cursors
