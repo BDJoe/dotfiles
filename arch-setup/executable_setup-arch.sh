@@ -54,6 +54,7 @@ packages=(
     "ttf-jetbrains-mono-nerd"
     "tty-clock"
     "ttf-0xproto-nerd"
+    "ttf-material-icons"
     # Display Manager
     "swww"
     "qt6-svg"
